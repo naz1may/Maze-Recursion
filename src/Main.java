@@ -149,4 +149,12 @@ public class Main {
         }
         System.out.println("-----------------------");
     }
+
+    public static boolean isValidSpot(char[][] maze, int r, int c) {
+        // Проверяем, является ли клетка допустимой для перемещения
+        if (r >= 0 && r < maze.length && c >= 0 && c < maze[0].length) {
+            return maze[r][c] == PATH;
+        }
+        return false;
+    }
 }
