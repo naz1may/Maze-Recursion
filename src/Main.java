@@ -93,4 +93,31 @@ public class Main {
 
         return random.nextInt(4);  // или случайное направление
     }
+
+    private static void createBranch(char[][] maze, int startX, int startY, int size) {
+        // Длина ветки от 3 до size/2 клеток
+        int length = 3 + random.nextInt(size/2);
+        int x = startX, y = startY;
+
+        for (int i = 0; i < length; i++) {
+            int direction = random.nextInt(4);  // случайное направление
+            int newX = x, newY = y;
+
+            switch (direction) {
+                case 0: newY++; break; // право
+                case 1: newX++; break; // низ
+                case 2: newY--; break; // лево
+                case 3: newX--; break; // верх
+            }
+
+            // проверяем, не выходит ли ветка за границы лабиринта
+            if (newX >= 0 && newX < size && newY >= 0 && newY < size) {
+                if (maze[newX][newY] == WALL) {
+                    maze[newX][newY] = PATH; // Если клетка — стена, превращаем её в путь
+                    x = newX; // Обновляем текущие координаты
+                    y = newY;
+                }
+            }
+        }
+    }
 }
