@@ -94,6 +94,23 @@ public class Main {
         return random.nextInt(4);  // или случайное направление
     }
 
+    private static void addBranches(char[][] maze, int size) {
+        // Количество веток зависит от размера лабиринта
+        int branches = size * 2;
+
+        for (int i = 0; i < branches; i++) {
+            int x, y;
+            // Выбираем случайную точку на основном пути
+            do {
+                x = random.nextInt(size);
+                y = random.nextInt(size);
+            } while (maze[x][y] != PATH); // проверяем лежит ли точка на основном пути
+
+            // Пытаемся создать ветку
+            createBranch(maze, x, y, size);
+        }
+    }
+
     private static void createBranch(char[][] maze, int startX, int startY, int size) {
         // Длина ветки от 3 до size/2 клеток
         int length = 3 + random.nextInt(size/2);
