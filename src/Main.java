@@ -16,4 +16,25 @@ public class Main {
             size=10;
         }
     }
+
+    public static char[][] generateMaze(int size) {
+        char[][] maze = new char[size][size];
+
+        // заполняем все клетки стенами (0 нулем)
+        for (int i = 0; i < size; i++) {
+            Arrays.fill(maze[i], WALL);
+        }
+
+        // старт и финиш
+        maze[0][0] = PATH;
+        maze[size-1][size-1] = PATH;
+
+        // Основной путь
+        createMainPath(maze, size);
+
+        // доп. случайные ветки
+        addBranches(maze, size);
+
+        return maze;
+    }
 }
