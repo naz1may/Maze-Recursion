@@ -2,19 +2,36 @@ import java.util.*;
 
 public class Main {
     private static final char WALL = '0';
-    private static final char PATH = '·';
+    private static final char PATH = '.';  // Изменил '·' на '.' для совместимости с алгоритмом решения
     private static final Random random = new Random();
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Type the size of the maze(withing 10 to 20): ");
+        System.out.print("Type the size of the maze(within 10 to 20): ");
         int size = scan.nextInt();
         System.out.println();
 
         if (size < 10 || size > 20) {
             System.out.println("Invalid size! The size is settled as 10.");
-            size=10;
+            size = 10;
         }
+
+        char[][] maze = generateMaze(size);
+        printMaze(maze);
+
+        // Создаем копию лабиринта для решения, чтобы оригинал остался неизменным
+        char[][] mazeCopy = new char[size][size];
+        for (int i = 0; i < size; i++) {
+            System.arraycopy(maze[i], 0, mazeCopy[i], 0, size);
+        }
+
+        if (traverse(mazeCopy, 0, 0)) {
+            System.out.println("SOLVED maze");
+        } else {
+            System.out.println("could NOT SOLVE maze");
+        }
+
+        printMaze(mazeCopy);
     }
 
     public static char[][] generateMaze(int size) {
@@ -75,11 +92,11 @@ public class Main {
     }
 
     private static int chooseDirection(int x, int y, int targetX, int targetY) {
-        // Выбираем направление к финишу с приоритетом
+        // Вероятностный выбор направления с приоритетом движения к цели
         int[] directions = new int[2]; // массив для возможных направлений к цели
         int count = 0; // счетчик возможных направлений
 
-        if (y < targetY) directions[count++] = 0; // право (сначала запись, потом ++)
+        if (y < targetY) directions[count++] = 0; // право (сначала запись, потом инкремент)
         if (x < targetX) directions[count++] = 1; // низ
         if (y > targetY) directions[count++] = 2; // лево
         if (x > targetX) directions[count++] = 3; // верх
@@ -150,6 +167,7 @@ public class Main {
         System.out.println("-----------------------");
     }
 
+    // Методы для решения лабиринта
     public static boolean isValidSpot(char[][] maze, int r, int c) {
         // Проверяем, является ли клетка допустимой для перемещения
         if (r >= 0 && r < maze.length && c >= 0 && c < maze[0].length) {
@@ -176,7 +194,7 @@ public class Main {
 
             // Если путь найден, помечаем текущую клетку как часть решения
             if (returnValue) {
-                System.out.println(r + ", " + c);  // выводим координаты решения
+                //System.out.println(r + ", " + c);  // выводим координаты решения
                 maze[r][c] = ' ';  // помечаем как часть конечного пути
             }
             return returnValue;
