@@ -194,7 +194,7 @@ public class Main {
 
             // Если путь найден, помечаем текущую клетку как часть решения
             if (returnValue) {
-                //System.out.println(r + ", " + c);  // выводим координаты решения
+                System.out.println(r + ", " + c);  // выводим координаты решения
                 maze[r][c] = ' ';  // помечаем как часть конечного пути
             }
             return returnValue;
