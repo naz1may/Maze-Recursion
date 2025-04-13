@@ -37,4 +37,60 @@ public class Main {
 
         return maze;
     }
+
+    private static void createMainPath(char[][] maze, int size) {
+        int x = 0, y = 0;
+
+        while (x != size-1 || y != size-1) {
+            // Выбираем направление к финишу с приоритетом
+            int direction = chooseDirection(x, y, size-1, size-1);
+
+            switch (direction) {
+                case 0: // вправо
+                    if (y < size-1) {
+                        maze[x][y+1] = PATH;
+                        y++;
+                    }
+                    break;
+                case 1: // вниз
+                    if (x < size-1) {
+                        maze[x+1][y] = PATH;
+                        x++;
+                    }
+                    break;
+                case 2: // влево
+                    if (y > 0 && (x != size-1 || y-1 != size-1)) {
+                        maze[x][y-1] = PATH;
+                        y--;
+                    }
+                    break;
+                case 3: // вверх
+                    if (x > 0 && (x-1 != size-1 || y != size-1)) {
+                        maze[x-1][y] = PATH;
+                        x--;
+                    }
+                    break;
+            }
+        }
+    }
+
+    private static int chooseDirection(int x, int y, int targetX, int targetY) {
+        // Выбираем направление к финишу с приоритетом
+        int[] directions = new int[2]; // массив для возможных направлений к цели
+        int count = 0; // счетчик возможных направлений
+
+        if (y < targetY) directions[count++] = 0; // право (сначала запись, потом ++)
+        if (x < targetX) directions[count++] = 1; // низ
+        if (y > targetY) directions[count++] = 2; // лево
+        if (x > targetX) directions[count++] = 3; // верх
+
+        if (count > 0) {
+            // 80% выбираем направление к цели, с рандомайзером, чтобы путь не был прямым
+            if (random.nextInt(100) < 80) { // если условие выполняется идем к цели
+                return directions[random.nextInt(count)];
+            }
+        }
+
+        return random.nextInt(4);  // или случайное направление
+    }
 }
