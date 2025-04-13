@@ -137,4 +137,16 @@ public class Main {
             }
         }
     }
+
+    public static void printMaze(char[][] maze) {
+        System.out.println("-----------------------");
+        for (char[] row : maze) {
+            System.out.print("| ");
+            for (char cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println("|");
+        }
+        System.out.println("-----------------------");
+    }
 }
