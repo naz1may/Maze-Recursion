@@ -157,4 +157,30 @@ public class Main {
         }
         return false;
     }
+
+    public static boolean traverse(char[][] maze, int r, int c) {
+        if (isValidSpot(maze, r, c)) {
+            // Если достигли конечной точки
+            if (r == maze.length-1 && c == maze[0].length-1) {
+                return true;
+            }
+
+            // Помечаем текущую клетку как посещенную
+            maze[r][c] = '*';
+
+            // Пробуем все направления (рекурсивно)
+            boolean returnValue = traverse(maze, r - 1, c);  // вверх
+            if (!returnValue) returnValue = traverse(maze, r, c + 1);  // вправо
+            if (!returnValue) returnValue = traverse(maze, r + 1, c);  // вниз
+            if (!returnValue) returnValue = traverse(maze, r, c - 1);  // влево
+
+            // Если путь найден, помечаем текущую клетку как часть решения
+            if (returnValue) {
+                System.out.println(r + ", " + c);  // выводим координаты решения
+                maze[r][c] = ' ';  // помечаем как часть конечного пути
+            }
+            return returnValue;
+        }
+        return false;
+    }
 }
